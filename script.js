@@ -7,6 +7,7 @@ let closeIcon = document.getElementById("close");
 let addButton = document.getElementById("add");
 let addoverlayContent = document.getElementById("overlay-content");
 let form = document.getElementById("add-form-post");
+let input = document.getElementById("title");
 
 //მთავარი ფუნქცია
 function postsAjax(url, callback) {
@@ -21,8 +22,8 @@ function postsAjax(url, callback) {
 }
 
 //მთავარი ფუნქციის გამოძახება
-postsAjax("https://jsonplaceholder.typicode.com/posts", function (data) {
-  data.forEach((element) => {
+postsAjax("https://jsonplaceholder.typicode.com/posts", function (x) {
+  x.forEach((element) => {
     createPostDiv(element);
   });
 });
@@ -67,15 +68,15 @@ function createPostDiv(item) {
     //როდესაც დივს დავაკლიკებ რა მინდა რომ მოხდეს
     // console.log(e.target);
     let divId = e.currentTarget.getAttribute("data-id"); //ატრიბუტის მნიშვნელობის ამოღება
-    console.log(divId);
+    // console.log(divId);
 
     overlay.classList.add("overlayActive");
     let newUrl = `https://jsonplaceholder.typicode.com/posts/${divId}`;
     postsAjax(newUrl, function (newData) {
-      // console.log(newData);
+      console.log(newData);
       overlayDescription(newData); //კონკრეტული მნიშვნელობა, დავაკლიკებთ და გამოიტანს იმ ტექსტს
     });
-    console.log(newUrl);
+    // console.log(newUrl);
   });
 
   mainWraperDiv.appendChild(divWraper);
@@ -100,30 +101,28 @@ closeIcon.addEventListener("click", function () {
 
 addButton.addEventListener("click", function () {
   addoverlayContent.classList.add("activeAddOverlay");
+  input.value = " ";
 });
 
 form.addEventListener("submit", function (event) {
-  event.preventDefault; //რომ არ დარეფრეშდეს
-
+  event.preventDefault(); //რომ არ დარეფრეშდეს
 
   let formData = {
-    title: event.target[0].value
-  }
+    title: event.target[0].value,
+  };
   console.log(formData);
 
-  fetch('https://jsonplaceholder.typicode.com/posts', {
-  method: 'POST',
-  body: JSON.stringify(formData),
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  },
-})
-  .then((response) => response.json())
-  .then((damatebuliPosti) => {
-    addoverlayContent.classList.remove("activeAddOverlay")
-    console.log(damatebuliPosti)
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
   })
-  
-
-
-})
+    .then((response) => response.json())
+    .then((damatebuliPosti) => {
+      createPostDiv(damatebuliPosti);
+      addoverlayContent.classList.remove("activeAddOverlay");
+      console.log(damatebuliPosti);
+    });
+});
