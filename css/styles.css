@@ -2,7 +2,7 @@
 .post{
     background-color: palevioletred;
     padding: 30px;
-    width: 800px;
+    width: 70%;
     margin: 30px auto;
     font-family: 'Signika Negative', sans-serif;
 }
@@ -26,11 +26,39 @@
     position: absolute;
     top: 15px;
     right: 5px;
-    color: rgb(239, 5, 149);
+    color: blueviolet;
     font-size: 25px;
     cursor: pointer;
 }
 
 .overlay.overlayActive{
+    display: block;
+}
+
+.add-post{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    font-size: 50px;
+    color: blueviolet;
+    cursor: pointer;
+}
+
+.overlay-content{
+    position: fixed;
+    left: 25%;
+    background-color: rgb(238, 178, 198);
+    width: 50%;
+    height: 300px;
+    top: 30%;
+    display: none;
+    font-family: 'Signika Negative', sans-serif;
+    text-align: center;
+    align-items: center;
+    font-size: 18px;
+    color: rgb(19, 19, 20);
+}
+
+.overlay-content.activeAddOverlay{
     display: block;
 }

@@ -4,6 +4,9 @@ let mainWraperDiv = document.getElementById("wraper-posts");
 let overlay = document.getElementById("overlay");
 let content = document.getElementById("content");
 let closeIcon = document.getElementById("close");
+let addButton = document.getElementById("add");
+let addoverlayContent = document.getElementById("overlay-content");
+let form = document.getElementById("add-form-post");
 
 //მთავარი ფუნქცია
 function postsAjax(url, callback) {
@@ -36,20 +39,41 @@ function createPostDiv(item) {
   let h2Element = document.createElement("h2");
   h2Element.innerText = `${item.title}`;
 
+  //წაშლის ღილაკი
+  let deleteButton = document.createElement("button");
+  deleteButton.innerText = "delete";
+  deleteButton.setAttribute("data-id", `${item.id}`);
+
   divWraper.appendChild(h4Element);
   divWraper.appendChild(h2Element);
+  divWraper.appendChild(deleteButton);
+
+  // წაშლის ფუნქციონალი
+
+  deleteButton.addEventListener("click", function (event) {
+    event.stopPropagation();
+    let buttonId = event.target.getAttribute("data-id");
+    console.log("buttonId", buttonId);
+
+    let deleteUrl = `https://jsonplaceholder.typicode.com/posts/${buttonId}`;
+    console.log(("deleteUrl = ", deleteUrl));
+
+    fetch(deleteUrl, {
+      method: "DELETE",
+    }).then(() => divWraper.remove());
+  });
 
   divWraper.addEventListener("click", function (e) {
     //როდესაც დივს დავაკლიკებ რა მინდა რომ მოხდეს
-    console.log(e.target);
-    let divId = e.target.getAttribute("data-id"); //ატრიბუტის მნიშვნელობის ამოღება
+    // console.log(e.target);
+    let divId = e.currentTarget.getAttribute("data-id"); //ატრიბუტის მნიშვნელობის ამოღება
     console.log(divId);
 
     overlay.classList.add("overlayActive");
     let newUrl = `https://jsonplaceholder.typicode.com/posts/${divId}`;
     postsAjax(newUrl, function (newData) {
       // console.log(newData);
-      overlayDescription(newData);
+      overlayDescription(newData); //კონკრეტული მნიშვნელობა, დავაკლიკებთ და გამოიტანს იმ ტექსტს
     });
     console.log(newUrl);
   });
@@ -69,5 +93,37 @@ function overlayDescription(x) {
 // დახურვა
 closeIcon.addEventListener("click", function () {
   overlay.classList.remove("overlayActive"); //წავუშლოთ
-  content.innerHTML = " "; // გაავსუთაოთ 
+  content.innerHTML = " "; // გაავსუთაოთ
 });
+
+//postis damateba
+
+addButton.addEventListener("click", function () {
+  addoverlayContent.classList.add("activeAddOverlay");
+});
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault; //რომ არ დარეფრეშდეს
+
+
+  let formData = {
+    title: event.target[0].value
+  }
+  console.log(formData);
+
+  fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  body: JSON.stringify(formData),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+})
+  .then((response) => response.json())
+  .then((damatebuliPosti) => {
+    addoverlayContent.classList.remove("activeAddOverlay")
+    console.log(damatebuliPosti)
+  })
+  
+
+
+})
