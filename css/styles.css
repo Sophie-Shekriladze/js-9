@@ -1,25 +1,32 @@
+
 .post{
-    background-color: rgb(166, 12, 12);
-    margin-bottom: 20px;
+    background-color: palevioletred;
     padding: 30px;
+    width: 800px;
+    margin: 30px auto;
+    font-family: 'Signika Negative', sans-serif;
 }
 
 .overlay {
     position: fixed;
-    top: 0%;
-    left: 0%;
-    background-color: rgb(23, 78, 9);
-    width: 70%;
+    left: 25%;
+    background-color: rgb(238, 178, 198);
+    width: 50%;
     height: 300px;
-    margin: 0 auto;
+    top: 30%;
     display: none;
-}
+    font-family: 'Signika Negative', sans-serif;
+    text-align: center;
+    align-items: center;
+    font-size: 18px;
+    color: rgb(19, 19, 20);
+} 
 
 .close {
     position: absolute;
-    top: 35px;
-    right: 35px;
-    color: rgb(228, 244, 2);
+    top: 15px;
+    right: 5px;
+    color: rgb(239, 5, 149);
     font-size: 25px;
     cursor: pointer;
 }
